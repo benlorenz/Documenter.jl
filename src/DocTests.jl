@@ -241,7 +241,8 @@ end
 
 function eval_repl(block, sandbox, meta::Dict, doc::Documenter.Document, page)
     src_lines = Documenter.find_block_in_file(block.code, meta[:CurrentFile])
-    for (input, output) in repl_splitter(block.code)
+    println("page: $(Documenter.locrepr(meta[:CurrentFile], src_lines))")
+    @time for (input, output) in repl_splitter(block.code)
         result = Result(block, input, output, meta[:CurrentFile])
         for (ex, str) in Documenter.parseblock(input, doc, page; keywords = false, raise=false)
             # Input containing a semi-colon gets suppressed in the final output.
